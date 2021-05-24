@@ -1,0 +1,39 @@
+#include<iostream>
+#include<cmath>
+using namespace std;
+int a[1000000], t[1000000];
+void merge(int l, int mid, int r)
+{
+	int x = l;
+	int y = mid + 1;
+	int p = l;
+	while (x <= mid && y <= r) {
+		if (a[x] <= a[y]) t[p++] = a[x++];
+		else t[p++] = a[y++];
+	}
+	while (x <= mid) t[p++] = a[x++];
+	while (y <= r) t[p++] = a[y++];
+	for (int i = l; i <= r; i++) a[i] = t[i];
+}
+void merge_sort(int l, int r)
+{
+	if (l == r) {
+		return;
+	}
+	int mid = (l + r) / 2;
+	merge_sort(l, mid);
+	merge_sort(mid + 1, r);
+	merge(l, mid, r);
+}
+void 归并()
+{
+	int n;
+	cin >> n;
+	for (int i = 1; i <= n; i++) {
+		cin >> a[i];
+	}
+	merge_sort(1, n);
+	for (int i = 1; i <= n; i++) {
+		cout << a[i] << " ";
+	}
+}
